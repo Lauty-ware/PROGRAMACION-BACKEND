@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import tareasRouter from './tareas/tareas.routes';
+import tareasRouter from './routes/tareas.routes';
 import { errorHandler } from './middlewares/error-handler';
 import { notFoundHandler } from './middlewares/not-found';
 
