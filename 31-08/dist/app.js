@@ -7,7 +7,7 @@ exports.App = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
-const tareas_routes_1 = __importDefault(require("./tareas/tareas.routes"));
+const tareas_routes_1 = __importDefault(require("./routes/tareas.routes"));
 const error_handler_1 = require("./middlewares/error-handler");
 const not_found_1 = require("./middlewares/not-found");
 class App {

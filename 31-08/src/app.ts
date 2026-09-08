@@ -2,6 +2,8 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import tareasRouter from './routes/tareas.routes';
+import usuarioRouter from './routes/usuario.routes';
+import proyectoRouter from './routes/proyecto.routes';
 import { errorHandler } from './middlewares/error-handler';
 import { notFoundHandler } from './middlewares/not-found';
 
@@ -23,11 +25,17 @@ export class App {
   }
 
   private configureRoutes(): void {
+    this.app.use('/api/usuarios', usuarioRouter);
+    this.app.use('/api/proyectos', proyectoRouter);
     this.app.use('/api/tareas', tareasRouter);
     
-    // Ruta de salud para verificar que el servidor está funcionando
+    // Ruta de salud
     this.app.get('/health', (req, res) => {
-      res.status(200).json({ status: 'OK', message: 'Servidor funcionando correctamente' });
+      res.status(200).json({ 
+        status: 'OK', 
+        message: 'Servidor funcionando correctamente',
+        version: '2.0.0'
+      });
     });
   }
 
@@ -39,6 +47,7 @@ export class App {
   public start(port: number): void {
     this.app.listen(port, () => {
       console.log(`Servidor corriendo en el puerto ${port}`);
+      console.log(`Base de datos SQLite inicializada`);
     });
   }
 }

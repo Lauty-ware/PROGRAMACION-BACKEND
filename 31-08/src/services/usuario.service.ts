@@ -31,31 +31,31 @@ export class UsuarioService {
   async crear(data: CrearUsuarioDTO): Promise<Usuario> {
     try {
       UsuarioValidator.validarCrear(data);
-
-      // Verificar si el email ya existe
-      const existe = await this.repository.existsByEmail(data.email);
-      if (existe) {
-        throw new ConflictError('El email ya está registrado');
-      }
-
-      // Hash de la contraseña
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(data.password, saltRounds);
-
-      const usuarioData = {
-        ...data,
-        password: hashedPassword
-      };
-
-      const usuario = await this.repository.create(usuarioData);
-      const { password, ...usuarioSinPassword } = usuario;
-      return usuarioSinPassword as Usuario;
     } catch (error) {
       if (error instanceof Error) {
         throw new ValidationError(error.message);
       }
       throw error;
     }
+
+    // Verificar si el email ya existe
+    const existe = await this.repository.existsByEmail(data.email);
+    if (existe) {
+      throw new ConflictError('El email ya está registrado');
+    }
+
+    // Hash de la contraseña
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(data.password, saltRounds);
+
+    const usuarioData = {
+      ...data,
+      password: hashedPassword
+    };
+
+    const usuario = await this.repository.create(usuarioData);
+    const { password, ...usuarioSinPassword } = usuario;
+    return usuarioSinPassword as Usuario;
   }
 
   async actualizar(id: string, data: ActualizarUsuarioDTO): Promise<Usuario> {
